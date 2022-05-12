@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec=”http://www.thymeleaf.org/extras/spring-security>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+	<!-- css読込 -->
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/header/header.css}">
+	<!-- Bootstrapの設定 -->
+	<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+</head>
+
+<body class="bg-light mx-3">
+	<div class="navbar page-header p-0">
+		<div class="navbar-header">
+			<h1 th:text="${title}"></h1>
+		</div>
+		<div sec:authorize="isAuthenticated()" class="navbar">
+			<form class="row" method="post" th:action="@{/logout}">
+				<p class="navbar-toggler m-0 p-2">ようこそ
+					<span th:text="${#authentication.principal.viewName}">{?LoginUserName}</span>
+					さん
+				</p>
+				<button class="btn-simple01 mt-1" type="submit">ログアウト</button>
+			</form>
+		</div>
+
+	</div>
+	<div class="container-fruid" layout:fragment="content">
+	</div>
+</body>
+
+</html>

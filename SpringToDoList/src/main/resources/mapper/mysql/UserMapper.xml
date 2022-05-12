@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MapperとXMLのマッピング -->
+<mapper namespace="katachi.spring.todoList.repository.UserMapper">
+
+
+	<!-- 作業リスト取得 -->
+	<select id="findMany" resultType="MUser">
+		select
+		*
+		from
+		t_task
+		join
+		m_user
+		on
+		t_task.user_id = m_user.id
+		where
+		delete_flg=0
+		ORDER BY
+		end_date asc
+	</select>
+	<!-- ユーザー取得 -->
+	<select id="findManyUser" resultType="MUser">
+		select
+		*
+		from
+		m_user
+	</select>
+	<!-- ユーザー1件登録 -->
+	<insert id="insertOne">
+		insert into t_task(
+		content,
+		user_id,
+		created_date,
+		end_date,
+		complete_date
+		)
+		values(
+		#{content},
+		#{userId},
+		#{createdDate},
+		#{endDate},
+		#{completeDate}
+		)
+	</insert>
+	<!-- タスクリスト１個呼び出し -->
+	<select id="findTaskOne" resultType="MUser">
+		select
+		*
+		from
+		t_task
+		join
+		m_user
+		on
+		t_task.user_id = m_user.id
+		where
+		t_task.id
+		=#{id}
+	</select>
+	<update id="updateOne">
+		update
+		t_task
+		set
+		content=#{content},
+		user_id=#{userId},
+		end_date=#{endDate},
+		complete_date=#{completeDate}
+		where
+		id=#{id}
+	</update>
+	<update id="deleteOne">
+		update
+		t_task
+		set
+		delete_flg=1
+		where
+		id=#{id}
+	</update>
+	<update id="completeOne">
+		update
+		t_task
+		set
+		complete_date=#{date}
+		where
+		id=#{id}
+	</update>
+	<select id="searchMany" resultType="MUser">
+		select
+		*
+		from
+		t_task
+		join
+		m_user
+		on
+		t_task.user_id = m_user.id
+		where
+		content LIKE CONCAT('%', #{content}, '%')
+		or
+		user_name LIKE CONCAT('%', #{content}, '%')
+		and
+		delete_flg=0
+		ORDER BY
+		end_date asc
+	</select>
+		<!-- ログインユーザー情報取得 -->
+	<select id="findLoginUser" resultType="LoginUser">
+		select
+		user_id as user_name,user_name as view_name,password
+		from
+		m_user
+		where
+		user_id = #{userId}
+	</select>
+</mapper>
