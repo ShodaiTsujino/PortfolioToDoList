@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{header/header}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/user/add.css}">
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <form id="signup-form" method="post" th:action="@{/user/delete}" class="form-signup" th:object="${deleteForm}">
+            <div class="form-group row m-1 align-items-center">
+                <label for="content" class="col-sm-2 col-form-label form-head" th:text="#{content}"></label>
+                <label for="content" class="pl-3" th:text="*{content}"></label>
+            </div>
+
+            <div class="form-group row m-1 align-items-center">
+                <label for="userName" class="col-sm-2 col-form-label form-head" th:text="#{user.name}"></label>
+                <label for="userName" class="pl-3" th:text="*{userName}"></label>
+            </div>
+
+            <div class="form-group row m-1 align-items-center">
+                <label for="endDate" class="col-sm-2 col-form-label form-head" th:text="#{end}"></label>
+                <label for="endDate" class="pl-3" th:text="*{#dates.format(endDate, 'YYYY/MM/dd')}"></label>
+            </div>
+
+            <div class="form-group row m-1 align-items-center">
+                <label for="completeDate" class="col-sm-2 col-form-label form-head" th:text="#{completeDate}"></label>
+                <label class="pl-3" th:text="*{completeDate != null}? '完了':'未完了'"></label>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn-simple01 m-1" name="delete">削除</button>
+                <button type="submit" class="btn-simple01 m-1" name="cancel">キャンセル</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

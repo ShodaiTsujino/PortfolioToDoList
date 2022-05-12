@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{header/header}">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+	<link rel="stylesheet" th:href="@{/css/user/list.css}">
+	<!-- 個別JS読込 -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+	<title th:text="${title}"></title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="navbar">
+			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
+
+			<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline">
+				<div class="form-group">
+					<input type="text" class="form-control mr-1" name="search" th:value="${session['search']}" />
+					<button type="submit" class="btn-simple01">
+						<i class="fas fa-search"></i> 検索
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<table class="table table-striped table-bordered table-hover text-center">
+			<thead>
+				<tr>
+					<th th:text="#{content}"></th>
+					<th th:text="#{user.name}"></th>
+					<th th:text="#{create}+#{date}"></th>
+					<th th:text="#{end}+#{date}"></th>
+					<th th:text="#{completeDate}+#{date}"></th>
+					<th th:text="#{process}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="item: ${taskList}"
+					th:styleappend="${item.endDate < #dates.createNow()}? 'background-color: #f99;'">
+					<td th:text="${item.content}" class="text-left col-md-4"></td>
+					<td th:text="${item.userName}"></td>
+					<td th:text="${#dates.format(item.createdDate, 'YYYY/MM/dd')}"></td>
+					<td th:text="${#dates.format(item.endDate, 'YYYY/MM/dd')}"></td>
+					<td th:text="${item.completeDate != null}? ${#dates.format(item.completeDate, 'YYYY/MM/dd')}:'未'"
+						th:classappend="${item.completeDate == null} ? text-danger"></td>
+					<td>
+						<div class="d-flex">
+							<form th:action="@{search}" method="post">
+								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
+								<button type="submit" class="btn-simple01" name="completed">完了</button>
+							</form>
+							<form th:action="@{update}" method="get">
+								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
+								<button type="submit" class="btn-simple01 mx-1">更新</button>
+							</form>
+							<form th:action="@{delete}" method="get">
+								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
+								<button type="submit" class="btn-simple01">削除</button>
+							</form>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<form id="user-search-form" method="post" th:action="@{/user/search}" class="form-inline float-right pb-5">
+			<button type="submit" class="btn-simple01" name="back">
+				戻る
+			</button>
+		</form>
+	</div>
+</body>
+
+</html>
