@@ -16,7 +16,7 @@
 	<div layout:fragment="content">
 		<div class="navbar">
 			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
-			<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline">
+			<form id="user-search-form" method="get" th:action="@{/user/search}" class="form-inline">
 				<div class="form-group">
 					<input type="text" class="form-control mr-1" name="search" />
 					<button type="submit" class="btn-simple01">
@@ -38,7 +38,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="item: ${taskList}"
-					th:styleappend="${item.endDate < #dates.createNow()}? 'background-color: #f99;'">
+					th:styleappend="${item.endDate < #dates.createNow() && item.completeDate == null}? 'background-color: #f99;'">
 					<td th:text="${item.content}" class="text-left col-md-4"></td>
 					<td th:text="${item.userName}"></td>
 					<td th:text="${#dates.format(item.createdDate, 'YYYY/MM/dd')}"></td>
@@ -49,11 +49,14 @@
 						<div class="d-flex">
 							<form th:action="@{/user/list}" method="get">
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
-								<button type="submit" class="btn-simple01" name="completed">完了</button>
+								<button type="submit" class="btn-simple01" name="completed"
+									th:text="${item.completeDate}? '完了済':'完了	'"
+									th:disabled="${item.completeDate !=null}">
+								</button>
 							</form>
 							<form th:action="@{/user/update}" method="get">
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
-								<button type="submit" class="btn-simple01">更新</button>
+								<button type="submit" class="btn-simple01 mx-1">更新</button>
 							</form>
 							<form th:action="@{/user/delete}" method="get">
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />

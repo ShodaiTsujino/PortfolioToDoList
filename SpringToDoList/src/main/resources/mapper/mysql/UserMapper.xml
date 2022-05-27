@@ -18,7 +18,8 @@
 		where
 		delete_flg=0
 		ORDER BY
-		end_date asc
+		complete_date and end_date,
+		end_date
 	</select>
 	<!-- ユーザー取得 -->
 	<select id="findManyUser" resultType="MUser">

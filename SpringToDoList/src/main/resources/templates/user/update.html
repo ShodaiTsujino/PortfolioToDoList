@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{header/header}">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
@@ -15,8 +14,7 @@
         <form id="signup-form" method="post" th:action="@{/user/update}" class="form-signup" th:object="${updateForm}">
             <div class="form-group row m-1 align-items-center">
                 <label for="content" class="p-3 col-form-label form-head" th:text="#{content}"></label>
-                <input type="text" class="form-control col-md-5 ml-3" th:field="*{content}" placeholder="登録内容はここに入力します。"
-                    th:errorclass="is-invalid">
+                <input type="text" class="form-control col-md-5 ml-3"  th:field="*{content}" placeholder="登録内容はここに入力します。" th:errorclass="is-invalid">
                 <div class="invalid-feedback" th:errors="*{content}"></div>
             </div>
 
@@ -30,7 +28,7 @@
 
             <div class="form-group row m-1 align-items-center">
                 <label for="endDate" class="p-3 col-form-label form-head" th:text="#{end}"></label>
-                <input type="text" class="form-control col-md-2 ml-3" placeholder="yyyy/MM/dd" th:field="*{endDate}"
+                <input type="text" class="form-control col-md-2 ml-3" placeholder="yyyy/MM/dd"th:field="*{endDate}" 
                     th:errorclass="is-invalid" />
                 <div class="invalid-feedback" th:errors="*{endDate}"></div>
             </div>
@@ -39,14 +37,15 @@
                 <label for="completeDate" class="p-2 col-form-label form-head" th:text="#{completeDate}"></label>
                 <div class="col-sm-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="completed" name="completed" value=1
-                            th:checked="*{completeDate != null}">
+                        <input class="form-check-input" type="checkbox" id="completed" name="completed" value=1 th:checked="*{completeDate != null}" >
                         <label class="form-check-label" for="completeDate" th:text="#{completeDate}">
                         </label>
                     </div>
                 </div>
             </div>
             <div class="text-center">
+		        <input type="hidden" name="search" th:value="${search}">
+		        <input type="hidden" name="id" th:value="${id}">
                 <button type="submit" class="btn-simple01 m-1" name="update">更新</button>
                 <button type="submit" class="btn-simple01 m-1" name="cancel">キャンセル</button>
             </div>

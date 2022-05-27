@@ -10,20 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
- * ログインページのクラス
- * 
+ *ログインページのクラス 
  * @author S_Tsujino
  *
  */
 @Controller
 public class LoginController {
-	// メッセージクラスを呼び出し
 	@Autowired
+	/*ページを構成する固定コードのメソッド*/
 	private MessageSource messageSource;
 
 	/**
 	 * ログイン入力フォームのページを表示
-	 * 
 	 * @param model
 	 * @param locale
 	 * @return
@@ -35,12 +33,11 @@ public class LoginController {
 	}
 
 	/**
-	 * ログイン処理を行い、作業内容一覧画面を表示
-	 * 
+	 *ログイン処理を行い、作業内容一覧画面を表示
 	 * @return ユーザー一覧画面にリダイレクト
 	 */
-	@PostMapping("/login")
-	public String postLogin() {
-		return "redirect:/user/list";
-	}
+		@PostMapping("/login")
+		public String postLogin() {
+			return "redirect:/user/list";
+		}
 }

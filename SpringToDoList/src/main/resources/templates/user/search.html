@@ -16,9 +16,9 @@
 		<div class="navbar">
 			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
 
-			<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline">
+			<form id="user-search-form" method="get" th:action="@{/user/search}" class="form-inline">
 				<div class="form-group">
-					<input type="text" class="form-control mr-1" name="search" th:value="${session['search']}" />
+					<input type="text" class="form-control mr-1" name="search" th:value="${search}" />
 					<button type="submit" class="btn-simple01">
 						<i class="fas fa-search"></i> 検索
 					</button>
@@ -49,14 +49,17 @@
 					<td>
 						<div class="d-flex">
 							<form th:action="@{search}" method="post">
+								<input type="hidden" id="search" name="search" th:value="${search}" />
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
 								<button type="submit" class="btn-simple01" name="completed">完了</button>
 							</form>
 							<form th:action="@{update}" method="get">
+								<input type="hidden" id="search" name="search" th:value="${search}" />
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
 								<button type="submit" class="btn-simple01 mx-1">更新</button>
 							</form>
 							<form th:action="@{delete}" method="get">
+								<input type="hidden" id="search" name="search" th:value="${search}" />
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
 								<button type="submit" class="btn-simple01">削除</button>
 							</form>
