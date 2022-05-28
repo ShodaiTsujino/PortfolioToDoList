@@ -18,10 +18,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper mapper;
 
-	// ユーザー取得
+	// タスク取得
 	@Override
-	public List<MUser> getTaskList() {
-		return mapper.findMany();
+	public List<MUser> getTaskList(String search) {
+		return mapper.findMany(search);
 	}
 
 	// ユーザー取得
@@ -66,13 +66,13 @@ public class UserServiceImpl implements UserService {
 	public void deleteTaskOne(int id) {
 		mapper.deleteOne(id);
 	}
-	
+
 	//タスクの検索
 	@Override
-	public List<MUser> getSearchTaskList(String content) {
-		return mapper.searchMany(content);
+	public List<MUser> getSearchTaskList(String search) {
+		return mapper.searchMany(search);
 	}
-	
+
 	//ログインユーザー照合
 	@Override
 	public LoginUser getLoginUser(String userId) {

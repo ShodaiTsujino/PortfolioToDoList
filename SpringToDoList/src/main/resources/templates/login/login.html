@@ -17,7 +17,7 @@
 		        <p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}!=null"
                 th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-danger">
                 ログインエラーメッセージ
-            </p>			
+            </p>
 			<div class="form-group">
 				<label for="userId" class="sr-only">userId</label>
 				<input	type="text" class="form-control" placeholder="ユーザーID" th:value="${userId}" name="userId" />
@@ -25,7 +25,7 @@
 			<!-- パスワード -->
 			<div class="form-group">
 				<label for="password" class="sr-only">password</label> <input
-					type="text" class="form-control" placeholder="パスワード" name="password"/>
+					type="password" class="form-control" placeholder="パスワード" name="password"/>
 			</div>
 			<!-- ログインボタン -->
 			<button type="submit" class="btn-simple01">

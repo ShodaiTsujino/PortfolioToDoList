@@ -15,11 +15,11 @@ public interface UserMapper {
 	public int insertOne(MUser user);
 
 	// タスクリスト取得
-	public List<MUser>findMany();
+	public List<MUser>findMany(String search);
 	// ユーザーリスト取得
 	public List<MUser>findManyUser();
 
-	// タスク取得(1件) 
+	// タスク取得(1件)
 	public MUser findTaskOne(int id);
 
 	// タスク更新(1件)

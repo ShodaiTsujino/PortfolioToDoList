@@ -15,8 +15,14 @@
 		m_user
 		on
 		t_task.user_id = m_user.id
-		where
-		delete_flg=0
+		<where>
+			<if test="search != null">
+				content like '%'||#{search}||'%'
+				or
+				user_name like '%'||#{search}||'%'
+			</if>
+			and delete_flg=0
+		</where>
 		ORDER BY
 		complete_date and end_date,
 		end_date
@@ -96,21 +102,24 @@
 		on
 		t_task.user_id = m_user.id
 		where
-		content LIKE CONCAT('%', #{content}, '%')
+		content LIKE CONCAT('%', #{search},	'%')
 		or
-		user_name LIKE CONCAT('%', #{content}, '%')
+		user_name LIKE CONCAT('%', #{search}, '%')
 		and
 		delete_flg=0
-		ORDER BY
+		ORDER
+		BY
 		end_date asc
 	</select>
-		<!-- ログインユーザー情報取得 -->
+	<!-- ログインユーザー情報取得 -->
 	<select id="findLoginUser" resultType="LoginUser">
 		select
-		user_id as user_name,user_name as view_name,password
+		user_id as
+		user_name,user_name as view_name,password
 		from
 		m_user
 		where
-		user_id = #{userId}
+		user_id =
+		#{userId}
 	</select>
 </mapper>
