@@ -10,10 +10,13 @@ public interface UserService {
 
 	/*ユーザー登録*/
 	public void addTaskOne(MUser user);
+
 	/* タスク取得 */
 	public List<MUser> getTaskList(String search);
+
 	/* ユーザー取得 */
 	public List<MUser> getUsers();
+
 	/*ユーザー取得(1件)*/
 	public MUser getTaskOne(int id);
 
@@ -24,8 +27,8 @@ public interface UserService {
 	public void completeDateFormat(UpdateForm form);
 	//タスク論理削除
 	public void deleteTaskOne(int id);
-	//タスク検索
-	public List<MUser> getSearchTaskList(String search);
 	//ログイン処理
 	public LoginUser getLoginUser(String userId);
+
+	public void completeTaskOne(int id);
 }

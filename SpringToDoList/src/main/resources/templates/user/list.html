@@ -18,7 +18,7 @@
 			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
 			<form id="user-search-form" method="get" th:action="@{/user/list}" class="form-inline">
 				<div class="form-group">
-					<input type="text" class="form-control mr-1" name="search" />
+					<input type="text" class="form-control mr-1" name="search" th:value="${session.search}" />
 					<button type="submit" class="btn-simple01">
 						<i class="fas fa-search"></i> 検索
 					</button>
@@ -47,8 +47,12 @@
 						th:classappend="${item.completeDate == null} ? text-danger"></td>
 					<td class="g3-1mi">
 						<div class="d-flex">
+								<a th:href="@{/user/list?id=${id}}" class="btn-simple01"
+									th:text="${item.completeDate}? '完了済':'完了	'"
+									th:disabled="${item.completeDate !=null}"></a>
 							<form th:action="@{/user/list}" method="get">
 								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
+
 								<button type="submit" class="btn-simple01" name="completed"
 									th:text="${item.completeDate}? '完了済':'完了	'"
 									th:disabled="${item.completeDate !=null}">
@@ -67,6 +71,13 @@
 				</tr>
 			</tbody>
 		</table>
+		<div th:if="${session.search}">
+			<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline float-right pb-5">
+				<button type="submit" class="btn-simple01">
+					戻る
+				</button>
+			</form>
+		</div>
 	</div>
 </body>
 

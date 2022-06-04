@@ -17,9 +17,9 @@
 		t_task.user_id = m_user.id
 		<where>
 			<if test="search != null">
-				content like '%'||#{search}||'%'
+				content like '%${search}%'
 				or
-				user_name like '%'||#{search}||'%'
+				user_name like '%${search}%'
 			</if>
 			and delete_flg=0
 		</where>
@@ -88,29 +88,10 @@
 		update
 		t_task
 		set
-		complete_date=#{date}
+		complete_date=CURRENT_DATE
 		where
 		id=#{id}
 	</update>
-	<select id="searchMany" resultType="MUser">
-		select
-		*
-		from
-		t_task
-		join
-		m_user
-		on
-		t_task.user_id = m_user.id
-		where
-		content LIKE CONCAT('%', #{search},	'%')
-		or
-		user_name LIKE CONCAT('%', #{search}, '%')
-		and
-		delete_flg=0
-		ORDER
-		BY
-		end_date asc
-	</select>
 	<!-- ログインユーザー情報取得 -->
 	<select id="findLoginUser" resultType="LoginUser">
 		select

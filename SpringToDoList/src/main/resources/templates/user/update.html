@@ -28,7 +28,7 @@
 
             <div class="form-group row m-1 align-items-center">
                 <label for="endDate" class="p-3 col-form-label form-head" th:text="#{end}"></label>
-                <input type="text" class="form-control col-md-2 ml-3" placeholder="yyyy/MM/dd"th:field="*{endDate}" 
+                <input type="text" class="form-control col-md-2 ml-3" placeholder="yyyy/MM/dd"th:field="*{endDate}"
                     th:errorclass="is-invalid" />
                 <div class="invalid-feedback" th:errors="*{endDate}"></div>
             </div>
@@ -47,7 +47,7 @@
 		        <input type="hidden" name="search" th:value="${search}">
 		        <input type="hidden" name="id" th:value="${id}">
                 <button type="submit" class="btn-simple01 m-1" name="update">更新</button>
-                <button type="submit" class="btn-simple01 m-1" name="cancel">キャンセル</button>
+                <a href="javascript:history.back(-1);"  class="btn-simple01 m-1 button">キャンセル</a>
             </div>
         </form>
     </div>

@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import katachi.spring.todoList.controller.session.SessionCompData;
 import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
 import katachi.spring.todoList.form.UpdateForm;
 
 /**
  * 作業内容更新ページ
- * 
+ *
  * @author S.Tsujino
  *
  */
@@ -44,24 +43,11 @@ public class TaskUpdateController {
 	@Autowired
 	private MessageSource messageSource;
 
-	/**
-	 * 完了日の日付と入力した検索内容のセッション生成。 更新時にnullの場合に未完了になるために、登録済みの完了日を事前に生成
-	 * 
-	 * @param search 入力した検索内容
-	 * @param id     作業内容一覧で指定した項目のID
-	 * @return セッション変数を格納へ
-	 */
-	@ModelAttribute("sessionCompData")
-	public SessionCompData sessionCompData(int id) {
-		SessionCompData sessionCompData = new SessionCompData(); // セッション初期化
-		MUser user = userService.getTaskOne(id); // 既に登録済みの完了日を呼び出す
-		sessionCompData.setSessionCompDate(user.getCompleteDate()); // セッション変数に登録
-		return sessionCompData;
-	}
+
 
 	/**
 	 * 作業更新ページを表示
-	 * 
+	 *
 	 * @param id            更新する対象の作業項目ID
 	 * @param search        入力した検索内容
 	 * @param model
@@ -94,7 +80,7 @@ public class TaskUpdateController {
 
 	/**
 	 * 作業内容更新処理
-	 * 
+	 *
 	 * @param form               バリデーション用
 	 * @param bindingResult      バリデーション結果
 	 * @param id                 対象の作業内容のID
@@ -108,11 +94,13 @@ public class TaskUpdateController {
 	 */
 	@PostMapping(value = "/update", params = "update")
 	public String updateTaskOne(@ModelAttribute @Validated UpdateForm form, BindingResult bindingResult, int id,
-			Model model, Locale locale, SessionCompData sessionCompData, SessionStatus sessionStatus, String search,
+			Model model, Locale locale,SessionStatus sessionStatus, String search,
 			RedirectAttributes redirectAttributes) {
-		// 更新時に完了済みだった場合に入れたセッション変数を格納
+		// 更新時に完了済みだった場合に
 		if (form.getCompleted() != 0) {
-			form.setCompleteDate(sessionCompData.getSessionCompDate());
+			// 既に登録済みの完了日を呼び出す
+			MUser user = userService.getTaskOne(id);
+			form.setCompleteDate(user.getCompleteDate());
 		}
 		userService.completeDateFormat(form);
 
@@ -120,7 +108,7 @@ public class TaskUpdateController {
 		MUser user = modelMapper.map(form, MUser.class);
 		user.setId(id);
 		// セッション削除
-		sessionStatus.setComplete(); 
+		sessionStatus.setComplete();
 		//バリデーションチェック
 		if (bindingResult.hasErrors()) {
 			// NG:ユーザー更新画面に戻ります
@@ -141,7 +129,7 @@ public class TaskUpdateController {
 
 	/**
 	 * バリデーション用作業更新ページ
-	 * 
+	 *
 	 * @param id     対象の項目のID
 	 * @param model
 	 * @param locale
@@ -164,7 +152,7 @@ public class TaskUpdateController {
 
 	/**
 	 * 処理をキャンセルして一覧ページに戻る
-	 * 
+	 *
 	 * @param search             検索入力内容
 	 * @param redirectAttributes 検索した内容をリダイレクト時に保持し、検索結果画面で表示するため
 	 * @return 検索結果がnullである場合に分岐して作業内容一覧と検索結果一覧に遷移先を決める

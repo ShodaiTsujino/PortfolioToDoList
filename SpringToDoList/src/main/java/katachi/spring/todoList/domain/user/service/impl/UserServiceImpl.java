@@ -67,16 +67,15 @@ public class UserServiceImpl implements UserService {
 		mapper.deleteOne(id);
 	}
 
-	//タスクの検索
-	@Override
-	public List<MUser> getSearchTaskList(String search) {
-		return mapper.searchMany(search);
-	}
-
 	//ログインユーザー照合
 	@Override
 	public LoginUser getLoginUser(String userId) {
 		return  mapper.findLoginUser(userId);
+	}
+
+	@Override
+	public void completeTaskOne(int id) {
+		mapper.completeOne(id);
 	}
 
 }

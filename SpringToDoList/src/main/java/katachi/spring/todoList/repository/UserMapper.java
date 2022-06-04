@@ -31,9 +31,8 @@ public interface UserMapper {
 	//完了処理
 	public void completeOne(int id, Date date);
 
-	//項目の検索してリストを生成
-	public List<MUser> searchMany(String content);
-
 	//ログインユーザー取得
 	public LoginUser findLoginUser(String userId);
+
+	public void completeOne(int id);
 }
