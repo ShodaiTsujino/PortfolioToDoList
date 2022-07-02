@@ -1,6 +1,5 @@
 package katachi.spring.todoList.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -12,6 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +21,7 @@ import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
 
 /**
- * 作業内容一覧ページを表示
+ * 作業内容一覧画面を表示
  * @author S.Tsujio
  *
  */
@@ -45,13 +45,14 @@ public class UserListController {
 	private HttpSession session;
 
 	/**
-	 *  ユーザー一覧画面を表示
+	 *  作業一覧画面を表示
 	 * @param model
 	 * @param locale
-	 * @return 作業一覧ペ－ジを表示
+	 * @return 作業一覧画面を表示
 	 */
 	@GetMapping("/list")
 	public String getUserList(String search, Model model, Locale locale) {
+		//セッション削除
 		session.removeAttribute("search");
 		//作業一覧をデータベースから呼び出し
 		List<MUser> taskList = userService.getTaskList(search);
@@ -63,17 +64,36 @@ public class UserListController {
 	}
 
 	/**
-	 *  作業一覧ページから完了処理
-	 * @return 完了処理をして作業内容一覧ページへ
+	 *  作業一覧画面から完了処理
+	 * @return 完了処理をして作業内容一覧画面へ
 	 */
-	@PostMapping(value = "/list", params = "completed")
-	public String completed(@RequestParam(name = "id", required = false) int id) {
+	@PostMapping(value = "/list/{id}", params = "completed")
+	public String postCompleted(@PathVariable(name = "id") int id) {
 		//対象idのデータベースの完了日を更新
 		userService.completeTaskOne(id);
-		//作業一覧ページへリダイレクト
+		//作業一覧画面へリダイレクト
 		return "redirect:/user/list";
 	}
 
+	/**
+	 *  作業一覧画面から更新処理画面へ
+	 * @return 更新処理画面へ
+	 */
+	@PostMapping(value = "/list/{id}", params = "update")
+	public String postUpdate(@PathVariable(name = "id", required = false) int id) {
+		//作業一覧画面へリダイレクト
+		return "redirect:/user/update/{id}";
+	}
+
+	/**
+	 *  作業一覧ページから削除処理画面へ
+	 * @return 削除処理画面へ
+	 */
+	@PostMapping(value = "/list/{id}", params = "delete")
+	public String postDelete(@PathVariable(name = "id", required = false) int id) {
+		//作業一覧ページへリダイレクト
+		return "redirect:/user/delete/{id}";
+	}
 	/**
 	 * 検索結果が空の場合は作業一覧ページへ戻る
 	 * 空じゃない場合は検索内容をセッションに保存して
@@ -108,8 +128,8 @@ public class UserListController {
 	}
 
 	/**
-	 *  作業一覧ページへ
-	 * @return 検索結果から作業内容一覧ページへ
+	 *  作業一覧画面へ
+	 * @return 検索結果から作業内容一覧画面へ
 	 */
 	@PostMapping(value = "/list")
 	public String back() {

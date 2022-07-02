@@ -47,24 +47,13 @@
 						th:classappend="${item.completeDate == null} ? text-danger"></td>
 					<td class="g3-1mi">
 						<div class="d-flex">
-								<a th:href="@{/user/list?id=${id}}" class="btn-simple01"
-									th:text="${item.completeDate}? '完了済':'完了	'"
-									th:disabled="${item.completeDate !=null}"></a>
-							<form th:action="@{/user/list}" method="get">
-								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
-
+							<form th:action="@{/user/list/} + *{item.id}" method="post">
 								<button type="submit" class="btn-simple01" name="completed"
 									th:text="${item.completeDate}? '完了済':'完了	'"
 									th:disabled="${item.completeDate !=null}">
 								</button>
-							</form>
-							<form th:action="@{/user/update}" method="get">
-								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
-								<button type="submit" class="btn-simple01 mx-1">更新</button>
-							</form>
-							<form th:action="@{/user/delete}" method="get">
-								<input type="hidden" id="id" name="id" th:value="*{item.id}" />
-								<button type="submit" class="btn-simple01">削除</button>
+								<button type="submit" class="btn-simple01 mx-1" name="update">更新</button>
+								<button type="submit" class="btn-simple01" name="delete">削除</button>
 							</form>
 						</div>
 					</td>
