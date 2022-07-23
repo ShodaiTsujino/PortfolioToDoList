@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
@@ -83,7 +84,6 @@ public class TaskUpdateController {
 	 * @param bindingResult バリデーション結果
 	 * @param id            対象の作業内容のID
 	 * @param model
-	 * @param locale
 	 * @return 内容更新後に直前の画面に遷移
 	 */
 	@PostMapping(value = "/update/{id}", params = "update")
@@ -91,21 +91,14 @@ public class TaskUpdateController {
 			@ModelAttribute @Validated UpdateForm form,
 			BindingResult bindingResult,
 			@PathVariable("id") int id,
-			@SessionAttribute(name = "search", required = false) String search) {
+			@SessionAttribute("search") String search,
+			 RedirectAttributes redirectAttributes,
+			Model model) {
 		// バリデーションチェック
 		if (bindingResult.hasErrors()) {
 			// NG:ユーザー更新画面に戻ります
 			return "user/update";
 		}
-		// 更新時に完了済みだった場合に
-//		if (form.getCompleted() != 0) {
-//			// 既に登録済みの完了日を呼び出す
-//			MUser user = userService.getTaskOne(id);
-//			// formに登録済みの完了日を格納
-//			form.setCompleteDate(user.getCompleteDate());
-//		}
-//		// サービスクラスで完了日をフォーマット
-//		userService.completeDateFormat(form);
 
 		// formをMUserクラスに変換
 		MUser user = modelMapper.map(form, MUser.class);
@@ -115,10 +108,10 @@ public class TaskUpdateController {
 		userService.updateTaskOne(user);
 		System.out.println(search);
 		if (!search.isEmpty()) {
-			return "redirect:/user/list" + search;
+			redirectAttributes.addAttribute("search", search);
+			return "redirect:/user/list";
 		}
 		// 作業内容一覧へ移動
-		return "redirect:/user/list";
+		return "redirect:user/list";
 	}
-
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import katachi.spring.todoList.domain.user.model.LoginUser;
 import katachi.spring.todoList.domain.user.model.MUser;
-import katachi.spring.todoList.form.UpdateForm;
 
 public interface UserService {
 
@@ -23,8 +22,6 @@ public interface UserService {
 	/*ユーザー更新(1件)*/
 	public void updateTaskOne(MUser user);
 
-	/*完了チェックした日の日付生成*/
-	public void completeDateFormat(UpdateForm form);
 	//タスク論理削除
 	public void deleteTaskOne(int id);
 	//ログイン処理
