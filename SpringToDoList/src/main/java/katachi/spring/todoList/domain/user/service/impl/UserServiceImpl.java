@@ -1,12 +1,11 @@
 package katachi.spring.todoList.domain.user.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import katachi.spring.todoList.domain.user.model.LoginUser;
+import katachi.spring.todoList.domain.user.model.LoginInfo;
 import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
 import katachi.spring.todoList.repository.UserMapper;
@@ -19,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
 	// タスク取得
 	@Override
-	public List<MUser> getTaskList(String search) {
+	public List<MUser> getToDoList(String search) {
 		return mapper.findMany(search);
 	}
 
@@ -31,41 +30,36 @@ public class UserServiceImpl implements UserService {
 
 	// 作業内容登録
 	@Override
-	public void addTaskOne(MUser user) {
-		user.setCreatedDate(new Date());
+	public void addToDoOne(MUser user) {
 		mapper.insertOne(user);
 	}
 
 	// 1件ユーザー取得
 	@Override
-	public MUser getTaskOne(int id) {
-		return mapper.findTaskOne(id);
+	public MUser getToDoOne(int id) {
+		return mapper.findToDoOne(id);
 	}
 
 	//作業内容登録
 	@Override
-	public void updateTaskOne(MUser user) {
+	public void updateToDoOne(MUser user) {
 		mapper.updateOne(user);
 	}
 
 	// タスクの論理削除
 	@Override
-	public void deleteTaskOne(int id) {
+	public void deleteToDoOne(int id) {
 		mapper.deleteOne(id);
 	}
 
 	//ログインユーザー照合
 	@Override
-	public LoginUser getLoginUser(String userId) {
+	public LoginInfo getLoginUser(String userId) {
 		return  mapper.findLoginUser(userId);
 	}
 
 	@Override
-	public void completeTaskOne(int id) {
+	public void completeToDoOne(int id) {
 		mapper.completeOne(id);
 	}
-
-
-
-
 }

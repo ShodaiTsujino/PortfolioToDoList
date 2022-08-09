@@ -3,8 +3,6 @@
 
 <!-- MapperとXMLのマッピング -->
 <mapper namespace="katachi.spring.todoList.repository.UserMapper">
-
-
 	<!-- 作業リスト取得 -->
 	<select id="findMany" resultType="MUser">
 		select
@@ -46,13 +44,13 @@
 		values(
 		#{content},
 		#{userId},
-		#{createdDate},
+		now(),
 		#{endDate},
 		#{completeDate}
 		)
 	</insert>
 	<!-- タスクリスト１個呼び出し -->
-	<select id="findTaskOne" resultType="MUser">
+	<select id="findToDoOne" resultType="MUser">
 		select
 		*
 		from
@@ -98,7 +96,7 @@
 		id=#{id}
 	</update>
 	<!-- ログインユーザー情報取得 -->
-	<select id="findLoginUser" resultType="LoginUser">
+	<select id="findLoginUser" resultType="LoginInfo">
 		select
 		user_id as
 		user_name,user_name as view_name,password

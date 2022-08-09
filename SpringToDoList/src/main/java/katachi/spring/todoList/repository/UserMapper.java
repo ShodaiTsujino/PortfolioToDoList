@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import katachi.spring.todoList.domain.user.model.LoginUser;
+import katachi.spring.todoList.domain.user.model.LoginInfo;
 import katachi.spring.todoList.domain.user.model.MUser;
 
 @Mapper
@@ -20,7 +20,7 @@ public interface UserMapper {
 	public List<MUser>findManyUser();
 
 	// タスク取得(1件)
-	public MUser findTaskOne(int id);
+	public MUser findToDoOne(int id);
 
 	// タスク更新(1件)
 	public void updateOne(MUser user);
@@ -32,7 +32,7 @@ public interface UserMapper {
 	public void completeOne(int id, Date date);
 
 	//ログインユーザー取得
-	public LoginUser findLoginUser(String userId);
+	public LoginInfo findLoginUser(String userId);
 
 	public void completeOne(int id);
 }

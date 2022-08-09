@@ -17,7 +17,7 @@ import lombok.Data;
  *
  */
 @Data
-public class LoginUser implements UserDetails{
+public class LoginInfo implements UserDetails{
 	private String username;
 	private String viewName;
 	private String password;

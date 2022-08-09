@@ -18,7 +18,7 @@
 			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
 			<form id="user-search-form" method="get" th:action="@{/user/list}" class="form-inline">
 				<div class="form-group">
-					<input type="text" class="form-control mr-1" name="search" th:value="${session.search}" />
+					<input type="text" class="form-control mr-1" name="search" th:value="${param.search}"/>
 					<button type="submit" class="btn-simple01">
 						<i class="fas fa-search"></i> 検索
 					</button>
@@ -37,7 +37,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="item: ${taskList}"
+				<tr th:each="item: ${todoList}"
 					th:styleappend="${item.endDate < #dates.createNow() && item.completeDate == null}? 'background-color: #f99;'">
 					<td th:text="${item.content}" class="text-left col-md-4"></td>
 					<td th:text="${item.userName}"></td>

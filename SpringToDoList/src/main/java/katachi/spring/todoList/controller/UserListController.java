@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
@@ -51,13 +52,16 @@ public class UserListController {
 	 * @return 作業一覧画面を表示
 	 */
 	@GetMapping("/list")
-	public String getUserList(String search, Model model, Locale locale) {
-		//セッション削除
-		session.removeAttribute("search");
+	public String getToDoList(Model model, Locale locale) {
+		//セッションチェック
+		if(session.getAttribute("search") != null) {
+			//セッション削除
+			session.removeAttribute("search");
+		}
 		//作業一覧をデータベースから呼び出し
-		List<MUser> taskList = userService.getTaskList(search);
+		List<MUser> todoList = userService.getToDoList(null);
 		// modelにViewの作業リストを表示
-		model.addAttribute("taskList", taskList);
+		model.addAttribute("todoList", todoList);
 		// Viewのタイトルとヘッダー部分を表示
 		model.addAttribute("title", messageSource.getMessage("list.title", null, locale));
 		return "user/list";
@@ -68,9 +72,14 @@ public class UserListController {
 	 * @return 完了処理をして作業内容一覧画面へ
 	 */
 	@PostMapping(value = "/list/{id}", params = "completed")
-	public String postCompleted(@PathVariable(name = "id") int id) {
+	public String postCompleted(
+			@PathVariable(name = "id") int id,
+			RedirectAttributes redirectAttributes,
+			@SessionAttribute(name="search", required = false) String search
+			) {
+		redirectAttributes.addAttribute("search", search);
 		//対象idのデータベースの完了日を更新
-		userService.completeTaskOne(id);
+		userService.completeToDoOne(id);
 		//作業一覧画面へリダイレクト
 		return "redirect:/user/list";
 	}
@@ -107,8 +116,12 @@ public class UserListController {
 	 * @return 検索内容をセッションに保存して検索一覧ページへ
 	 */
 	@GetMapping(value = "/list", params = "search")
-	public String search(@SessionAttribute("search") @RequestParam(name = "search", required = false) String search,
-			HttpServletRequest request, Model model, Locale locale) {
+	public String search(
+			@RequestParam(name = "search", required = false) String search,
+			HttpServletRequest request,
+			Model model,
+			Locale locale
+			) {
 		// 入力した検索フォームが空だった場合に検索一覧に戻る
 		if (search.isEmpty()) {
 			return "redirect:/user/list";
@@ -119,9 +132,9 @@ public class UserListController {
 		// セッションデータ設定
 		session.setAttribute("search", search);
 		//検索した内容でtodoリストをデータベースから呼び出し
-		List<MUser> taskList = userService.getTaskList(search);
+		List<MUser> todoList = userService.getToDoList(search);
 		// modelにViewの作業リストを表示
-		model.addAttribute("taskList", taskList);
+		model.addAttribute("todoList", todoList);
 		// Viewのタイトルとヘッダー部分を表示
 		model.addAttribute("title", messageSource.getMessage("search.title", null, locale));
 		return "user/list";

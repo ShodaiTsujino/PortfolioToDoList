@@ -12,7 +12,7 @@
 
 <body>
     <div layout:fragment="content">
-        <form id="signup-form" method="post" th:action="@{/user/delete}" class="form-signup" th:object="${deleteForm}">
+        <form id="signup-form" method="post" th:action="@{/user/delete/} + ${id}" class="form-signup" th:object="${userList}">
             <div class="form-group row m-1 align-items-center">
                 <label for="content" class="col-sm-2 col-form-label form-head" th:text="#{content}"></label>
                 <label for="content" class="pl-3" th:text="*{content}"></label>
@@ -30,14 +30,14 @@
 
             <div class="form-group row m-1 align-items-center">
                 <label for="completeDate" class="col-sm-2 col-form-label form-head" th:text="#{completeDate}"></label>
-                <label class="pl-3" th:text="*{completeDate != null}? '完了':'未完了'"></label>
+                <label class="pl-3" th:text="*{completeDate != null}? '完了済':'未完了'"></label>
             </div>
 
             <div class="text-center">
                 <input type="hidden" name="search" th:value="${search}">
                 <input type="hidden" name="id" th:value="${id}">
                 <button type="submit" class="btn-simple01 m-1" name="delete">削除</button>
-                <button type="submit" class="btn-simple01 m-1" name="cancel">キャンセル</button>
+                <button type="button" class="btn-simple01 m-1" onclick="history.back()">キャンセル</button>
             </div>
         </form>
     </div>

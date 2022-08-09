@@ -3,8 +3,6 @@ package katachi.spring.todoList.controller;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -32,7 +30,7 @@ import katachi.spring.todoList.form.UpdateForm;
  */
 @Controller
 @RequestMapping("/user")
-public class TaskUpdateController {
+public class ToDoUpdateController {
 	// データベースアクセス処理クラス
 	@Autowired
 	private UserService userService;
@@ -42,12 +40,12 @@ public class TaskUpdateController {
 	// Viewに表示する項目を呼び出すための項目
 	@Autowired
 	private MessageSource messageSource;
-	/**
-	 * セッション用クラス(検索内容)
-	 */
-	@Autowired
-	private HttpSession session;
 
+	/**
+	 * Viewで表示するメッセージを常に取得
+	 * @param model
+	 * @param locale
+	 */
 	@ModelAttribute
 	public void setVIewDisp(Model model, Locale locale) {
 		// データベースのユーザー名を呼び出し
@@ -63,14 +61,17 @@ public class TaskUpdateController {
 	 *
 	 * @param id     更新する対象の作業項目ID
 	 * @param model
-	 * @param locale
-	 * @param form   フォームの内容を保持とバリデーション用
-	 * @return 作業更新後に直前の画面に戻る
+	 * @param form   Viewのフォームクラス
+	 * @return 作業更新画面へ
 	 */
 	@GetMapping("/update/{id}")
-	public String getUpdate(@PathVariable("id") int id, Model model, @ModelAttribute UpdateForm form) {
+	public String getUpdate(
+			@PathVariable("id") int id,
+			Model model,
+			@ModelAttribute UpdateForm form
+			) {
 		// 作業一覧ページで選んだ項目のIDの作業内容を検索して呼び出し
-		MUser user = userService.getTaskOne(id);
+		MUser user = userService.getToDoOne(id);
 		// 呼び出した作業内容を表示させるために呼び出した項目をformに保存
 		form = modelMapper.map(user, UpdateForm.class);
 		model.addAttribute("updateForm", form);
@@ -80,38 +81,34 @@ public class TaskUpdateController {
 	/**
 	 * 作業内容更新処理
 	 *
-	 * @param form          バリデーション用
+	 * @param form          Viewのフォームクラス,バリデーション用
 	 * @param bindingResult バリデーション結果
 	 * @param id            対象の作業内容のID
-	 * @param model
+	 * @param search		セッションの検索内容
+	 * @param redirectAttributes リダイレクトクラス
 	 * @return 内容更新後に直前の画面に遷移
 	 */
 	@PostMapping(value = "/update/{id}", params = "update")
-	public String updateTaskOne(
+	public String updateToDoOne(
 			@ModelAttribute @Validated UpdateForm form,
 			BindingResult bindingResult,
 			@PathVariable("id") int id,
-			@SessionAttribute("search") String search,
-			 RedirectAttributes redirectAttributes,
-			Model model) {
+			@SessionAttribute(name="search", required = false) String search,
+			RedirectAttributes redirectAttributes
+			) {
 		// バリデーションチェック
 		if (bindingResult.hasErrors()) {
 			// NG:ユーザー更新画面に戻ります
 			return "user/update";
 		}
-
 		// formをMUserクラスに変換
 		MUser user = modelMapper.map(form, MUser.class);
 		user.setId(id);
-
 		// 作業内容更新処理
-		userService.updateTaskOne(user);
-		System.out.println(search);
-		if (!search.isEmpty()) {
-			redirectAttributes.addAttribute("search", search);
-			return "redirect:/user/list";
-		}
+		userService.updateToDoOne(user);
+		//パラメータに検索結果を格納
+		redirectAttributes.addAttribute("search", search);
 		// 作業内容一覧へ移動
-		return "redirect:user/list";
+		return "redirect:/user/list";
 	}
 }
