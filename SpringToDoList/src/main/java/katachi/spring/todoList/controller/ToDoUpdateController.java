@@ -90,11 +90,11 @@ public class ToDoUpdateController {
 	 */
 	@PostMapping(value = "/update/{id}", params = "update")
 	public String updateToDoOne(
-			@ModelAttribute @Validated UpdateForm form,
-			BindingResult bindingResult,
-			@PathVariable("id") int id,
-			@SessionAttribute(name="search", required = false) String search,
-			RedirectAttributes redirectAttributes
+			@PathVariable("id") int id
+			,@ModelAttribute @Validated UpdateForm form
+			,@SessionAttribute(name="search", required = false) String search
+			,RedirectAttributes redirectAttributes
+			,BindingResult bindingResult
 			) {
 		// バリデーションチェック
 		if (bindingResult.hasErrors()) {

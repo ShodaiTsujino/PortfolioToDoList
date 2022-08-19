@@ -5,25 +5,25 @@
 <mapper namespace="katachi.spring.todoList.repository.UserMapper">
 	<!-- 作業リスト取得 -->
 	<select id="findMany" resultType="MUser">
-		select
-		*
-		from
-		t_task
-		join
-		m_user
-		on
-		t_task.user_id = m_user.id
-		<where>
-			<if test="search != null">
-				content like '%${search}%'
-				or
-				user_name like '%${search}%'
-			</if>
-			and delete_flg=0
-		</where>
-		ORDER BY
-		complete_date and end_date,
-		end_date
+	select
+	*
+	from
+	t_task
+	join
+	m_user
+	on
+	t_task.user_id = m_user.id
+	where
+	delete_flg=0
+	<if test="search != null">
+		and
+		content like '%${search}%'
+		or
+		user_name like '%${search}%'
+	</if>
+	ORDER BY
+	complete_date and end_date,
+	end_date
 	</select>
 	<!-- ユーザー取得 -->
 	<select id="findManyUser" resultType="MUser">
@@ -72,9 +72,9 @@
 		end_date=#{endDate},
 		complete_date=
 		(case
-		when complete_date is null
+		when #{completed} = '1'
 		then now()
-        else null
+		else null
 		end)
 		where
 		id=#{id}
@@ -98,12 +98,12 @@
 	<!-- ログインユーザー情報取得 -->
 	<select id="findLoginUser" resultType="LoginInfo">
 		select
-		user_id as
-		user_name,user_name as view_name,password
+		user_id as user_name,
+		user_name as view_name,
+		password
 		from
 		m_user
 		where
-		user_id =
-		#{userId}
+		user_id = #{userId}
 	</select>
 </mapper>

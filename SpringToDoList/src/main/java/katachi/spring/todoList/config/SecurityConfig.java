@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/**
 	 * パスワードエンコーダークラス
-	 * 
+	 *
 	 * @return
 	 */
 	@Bean
@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.defaultSuccessUrl("/user/list", true);// 成功後の遷移先
 		// ログアウト処理
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutUrl("/logout")
-				.logoutSuccessUrl("/login?logout");
+				.logoutSuccessUrl("/login?logout").deleteCookies("search");
 	}
 
 	/**

@@ -70,7 +70,7 @@ public class GlobalControllAdvice {
 		return "error";
 	}
 	/**
-	 * 
+	 *
 	 * @param e
 	 * @param model
 	 * @param locale

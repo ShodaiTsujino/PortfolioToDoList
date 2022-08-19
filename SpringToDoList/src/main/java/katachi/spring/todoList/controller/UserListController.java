@@ -52,10 +52,9 @@ public class UserListController {
 	 * @return 作業一覧画面を表示
 	 */
 	@GetMapping("/list")
-	public String getToDoList(Model model, Locale locale) {
-		//セッションチェック
-		if(session.getAttribute("search") != null) {
-			//セッション削除
+	public String getToDoList(Model model,HttpServletRequest request,Locale locale) {
+		HttpSession session = request.getSession();
+		if (session != null) {
 			session.removeAttribute("search");
 		}
 		//作業一覧をデータベースから呼び出し
@@ -65,43 +64,6 @@ public class UserListController {
 		// Viewのタイトルとヘッダー部分を表示
 		model.addAttribute("title", messageSource.getMessage("list.title", null, locale));
 		return "user/list";
-	}
-
-	/**
-	 *  作業一覧画面から完了処理
-	 * @return 完了処理をして作業内容一覧画面へ
-	 */
-	@PostMapping(value = "/list/{id}", params = "completed")
-	public String postCompleted(
-			@PathVariable(name = "id") int id,
-			RedirectAttributes redirectAttributes,
-			@SessionAttribute(name="search", required = false) String search
-			) {
-		redirectAttributes.addAttribute("search", search);
-		//対象idのデータベースの完了日を更新
-		userService.completeToDoOne(id);
-		//作業一覧画面へリダイレクト
-		return "redirect:/user/list";
-	}
-
-	/**
-	 *  作業一覧画面から更新処理画面へ
-	 * @return 更新処理画面へ
-	 */
-	@PostMapping(value = "/list/{id}", params = "update")
-	public String postUpdate(@PathVariable(name = "id", required = false) int id) {
-		//作業一覧画面へリダイレクト
-		return "redirect:/user/update/{id}";
-	}
-
-	/**
-	 *  作業一覧ページから削除処理画面へ
-	 * @return 削除処理画面へ
-	 */
-	@PostMapping(value = "/list/{id}", params = "delete")
-	public String postDelete(@PathVariable(name = "id", required = false) int id) {
-		//作業一覧ページへリダイレクト
-		return "redirect:/user/delete/{id}";
 	}
 	/**
 	 * 検索結果が空の場合は作業一覧ページへ戻る
@@ -127,7 +89,6 @@ public class UserListController {
 			return "redirect:/user/list";
 		}
 		// セッション再生成
-		session.removeAttribute("search");
 		session = request.getSession();
 		// セッションデータ設定
 		session.setAttribute("search", search);
@@ -138,6 +99,41 @@ public class UserListController {
 		// Viewのタイトルとヘッダー部分を表示
 		model.addAttribute("title", messageSource.getMessage("search.title", null, locale));
 		return "user/list";
+	}
+	/**
+	 *  作業一覧画面から完了処理
+	 * @return 完了処理をして作業内容一覧画面へ
+	 */
+	@PostMapping(value = "/list/{id}", params = "completed")
+	public String postCompleted(
+			@PathVariable(name = "id") int id
+			,RedirectAttributes redirectAttributes
+			,@SessionAttribute(name="search", required = false) String search
+			) {
+		redirectAttributes.addAttribute("search", search);
+		//対象idのデータベースの完了日を更新
+		userService.completeToDoOne(id);
+		//作業一覧画面へリダイレクト
+		return "redirect:/user/list";
+	}
+	/**
+	 *  作業一覧画面から更新処理画面へ
+	 * @return 更新処理画面へ
+	 */
+	@PostMapping(value = "/list/{id}", params = "update")
+	public String postUpdate(@PathVariable(name = "id", required = false) int id) {
+		//作業一覧画面へリダイレクト
+		return "redirect:/user/update/{id}";
+	}
+
+	/**
+	 *  作業一覧ページから削除処理画面へ
+	 * @return 削除処理画面へ
+	 */
+	@PostMapping(value = "/list/{id}", params = "delete")
+	public String postDelete(@PathVariable(name = "id", required = false) int id) {
+		//作業一覧ページへリダイレクト
+		return "redirect:/user/delete/{id}";
 	}
 
 	/**

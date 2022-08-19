@@ -60,7 +60,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<div th:if="${session.search}">
+		<div th:if="${param.search}">
 			<form id="user-search-form" method="post" th:action="@{/user/list}" class="form-inline float-right pb-5">
 				<button type="submit" class="btn-simple01">
 					戻る

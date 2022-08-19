@@ -34,5 +34,6 @@ public interface UserMapper {
 	//ログインユーザー取得
 	public LoginInfo findLoginUser(String userId);
 
+	//一覧画面から完了処理
 	public void completeOne(int id);
 }

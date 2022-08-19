@@ -35,7 +35,7 @@ public class ToDoDeleteController {
 	/**
 	 * 作業削除ページ
 	 *
-	 * @param id     指定した項目のID
+	 * @param id 指定した項目のID
 	 * @return 削除処理画面へ
 	 */
 	@GetMapping("/delete/{id}")
@@ -65,6 +65,7 @@ public class ToDoDeleteController {
 			@PathVariable("id") int id,
 			@SessionAttribute(name="search", required = false) String search,
 			RedirectAttributes redirectAttributes) {
+		System.out.println(id);
 		// 指定した項目のIDの作業内容更新処理へ
 		userService.deleteToDoOne(id);
 		//パラメータに検索結果を格納

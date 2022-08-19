@@ -18,6 +18,8 @@ import lombok.Data;
  */
 @Data
 public class LoginInfo implements UserDetails{
+
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String viewName;
 	private String password;
