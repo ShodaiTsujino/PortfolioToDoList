@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 	//作業内容登録
 	@Override
 	public void updateToDoOne(MUser user) {
-		System.out.println(user);
 		mapper.updateOne(user);
 	}
 

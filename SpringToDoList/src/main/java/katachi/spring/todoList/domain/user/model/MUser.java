@@ -14,6 +14,5 @@ public class MUser {
 	private Date createdDate;
 	private Date endDate;
 	private Date completeDate;
-	private int completed;
 	private String role;
 }

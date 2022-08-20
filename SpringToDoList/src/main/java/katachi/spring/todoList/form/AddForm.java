@@ -23,5 +23,5 @@ public class AddForm {
 	private Date endDate;
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date completeDate;
-	private int complete;
+	private int completed;
 }

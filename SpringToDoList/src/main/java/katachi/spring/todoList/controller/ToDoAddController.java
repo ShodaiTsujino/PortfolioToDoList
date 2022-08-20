@@ -66,6 +66,7 @@ public class ToDoAddController {
 	 */
 	@GetMapping("/add")
 	public String getAddVIew(@ModelAttribute AddForm form) {
+		System.out.println(form);
 		return "user/add";
 	}
 
@@ -90,7 +91,7 @@ public class ToDoAddController {
 			return "user/add";
 		}
 		// 登録時の完了にチェックが入っている場合に今日の日付をフォームの完了日に格納
-		if (form.getComplete() != 0) {
+		if (form.getCompleted() != 0) {
 			form.setCompleteDate(new Date());
 		}
 		// フォームクラスをMUserクラスに格納

@@ -1,5 +1,6 @@
 package katachi.spring.todoList.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,7 +51,7 @@ public class ToDoUpdateController {
 	public void setVIewDisp(Model model, Locale locale) {
 		// データベースのユーザー名を呼び出し
 		List<MUser> userList = userService.getUsers();
-		// VIewで表示するユーザー一覧をパラメーターに格納
+		// Viewで表示するユーザー一覧をパラメーターに格納
 		model.addAttribute("userList", userList);
 		// Viewで表示するタイトルとヘッダー部分パラメータを格納
 		model.addAttribute("title", messageSource.getMessage("update.title", null, locale));
@@ -96,10 +97,14 @@ public class ToDoUpdateController {
 			,RedirectAttributes redirectAttributes
 			,BindingResult bindingResult
 			) {
+		System.out.println("aaaawa");
 		// バリデーションチェック
 		if (bindingResult.hasErrors()) {
 			// NG:ユーザー更新画面に戻ります
 			return "user/update";
+		}
+		if (form.getCompleted() != 0) {
+			form.setCompleteDate(new Date());
 		}
 		// formをMUserクラスに変換
 		MUser user = modelMapper.map(form, MUser.class);

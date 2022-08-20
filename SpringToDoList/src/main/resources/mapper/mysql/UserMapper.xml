@@ -3,7 +3,7 @@
 
 <!-- MapperとXMLのマッピング -->
 <mapper namespace="katachi.spring.todoList.repository.UserMapper">
-	<!-- 作業リスト取得 -->
+	<!-- ToDoリスト取得 searchにパラメータがある場合はwhere句に追加検索 -->
 	<select id="findMany" resultType="MUser">
 	select
 	*
@@ -14,15 +14,17 @@
 	on
 	t_task.user_id = m_user.id
 	where
-	delete_flg=0
+	delete_flg = 0
 	<if test="search != null">
 		and
-		content like '%${search}%'
+		(
+		content like CONCAT('%', #{search}, '%')
 		or
-		user_name like '%${search}%'
+		user_name like CONCAT('%', #{search}, '%')
+		)
 	</if>
 	ORDER BY
-	complete_date and end_date,
+	complete_date,
 	end_date
 	</select>
 	<!-- ユーザー取得 -->
@@ -32,7 +34,7 @@
 		from
 		m_user
 	</select>
-	<!-- ユーザー1件登録 -->
+	<!-- 作業内容1件登録 -->
 	<insert id="insertOne">
 		insert into t_task(
 		content,
@@ -49,7 +51,7 @@
 		#{completeDate}
 		)
 	</insert>
-	<!-- タスクリスト１個呼び出し -->
+	<!-- ToDoリスト1件呼び出し -->
 	<select id="findToDoOne" resultType="MUser">
 		select
 		*
@@ -63,6 +65,7 @@
 		t_task.id
 		=#{id}
 	</select>
+	<!-- データベース更新処理 -->
 	<update id="updateOne">
 		update
 		t_task
@@ -70,15 +73,11 @@
 		content=#{content},
 		user_id=#{userId},
 		end_date=#{endDate},
-		complete_date=
-		(case
-		when #{completed} = '1'
-		then now()
-		else null
-		end)
+		complete_date=#{completeDate}
 		where
 		id=#{id}
 	</update>
+	<!-- データベース論理削除処理 -->
 	<update id="deleteOne">
 		update
 		t_task
@@ -87,6 +86,7 @@
 		where
 		id=#{id}
 	</update>
+	<!-- 作業一覧より完了処理 -->
 	<update id="completeOne">
 		update
 		t_task
