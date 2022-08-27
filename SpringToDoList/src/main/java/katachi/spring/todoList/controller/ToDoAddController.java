@@ -66,7 +66,6 @@ public class ToDoAddController {
 	 */
 	@GetMapping("/add")
 	public String getAddVIew(@ModelAttribute AddForm form) {
-		System.out.println(form);
 		return "user/add";
 	}
 
@@ -98,6 +97,22 @@ public class ToDoAddController {
 		MUser user = modelMapper.map(form, MUser.class);
 		// データベースに作業内容を登録
 		userService.addToDoOne(user);
+		//パラメータに検索結果を格納
+		redirectAttributes.addAttribute("search", search);
+		// 作業内容一覧へ移動
+		return "redirect:/user/list";
+	}
+	/**
+	 * キャンセルボタン押下で作業一覧画面へ戻る
+	 * @param search
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping(value = "/add", params = "cancel")
+	public String back(
+			@SessionAttribute(name = "search", required = false) String search
+			,RedirectAttributes redirectAttributes
+			) {
 		//パラメータに検索結果を格納
 		redirectAttributes.addAttribute("search", search);
 		// 作業内容一覧へ移動

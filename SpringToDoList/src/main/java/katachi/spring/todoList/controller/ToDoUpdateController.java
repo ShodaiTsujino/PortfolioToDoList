@@ -41,7 +41,6 @@ public class ToDoUpdateController {
 	// Viewに表示する項目を呼び出すための項目
 	@Autowired
 	private MessageSource messageSource;
-
 	/**
 	 * Viewで表示するメッセージを常に取得
 	 * @param model
@@ -91,13 +90,12 @@ public class ToDoUpdateController {
 	 */
 	@PostMapping(value = "/update/{id}", params = "update")
 	public String updateToDoOne(
-			@PathVariable("id") int id
-			,@ModelAttribute @Validated UpdateForm form
+			@ModelAttribute @Validated UpdateForm form
+			,BindingResult bindingResult
+			,@PathVariable("id") int id
 			,@SessionAttribute(name="search", required = false) String search
 			,RedirectAttributes redirectAttributes
-			,BindingResult bindingResult
 			) {
-		System.out.println("aaaawa");
 		// バリデーションチェック
 		if (bindingResult.hasErrors()) {
 			// NG:ユーザー更新画面に戻ります
@@ -111,6 +109,24 @@ public class ToDoUpdateController {
 		user.setId(id);
 		// 作業内容更新処理
 		userService.updateToDoOne(user);
+		//パラメータに検索結果を格納
+		redirectAttributes.addAttribute("search", search);
+		// 作業内容一覧へ移動
+		return "redirect:/user/list";
+	}
+	/**
+	 * キャンセルボタン押下で作業一覧画面へ戻る
+	 * @param id
+	 * @param search
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping(value = "/update/{id}", params = "cancel")
+	public String back(
+			@PathVariable("id") int id
+			,@SessionAttribute(name = "search", required = false) String search
+			,RedirectAttributes redirectAttributes
+			) {
 		//パラメータに検索結果を格納
 		redirectAttributes.addAttribute("search", search);
 		// 作業内容一覧へ移動

@@ -65,9 +65,24 @@ public class ToDoDeleteController {
 			@PathVariable("id") int id,
 			@SessionAttribute(name="search", required = false) String search,
 			RedirectAttributes redirectAttributes) {
-		System.out.println(id);
 		// 指定した項目のIDの作業内容更新処理へ
 		userService.deleteToDoOne(id);
+		//パラメータに検索結果を格納
+		redirectAttributes.addAttribute("search", search);
+		// 作業内容一覧へ移動
+		return "redirect:/user/list";
+	}
+	/**
+	 * キャンセルボタン押下で作業一覧画面へ戻る
+	 * @param search
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@PostMapping(value = "/delete/{id}", params = "cancel")
+	public String back(
+			@SessionAttribute(name = "search", required = false) String search
+			,RedirectAttributes redirectAttributes
+			) {
 		//パラメータに検索結果を格納
 		redirectAttributes.addAttribute("search", search);
 		// 作業内容一覧へ移動
