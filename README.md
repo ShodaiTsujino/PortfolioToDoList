@@ -54,4 +54,4 @@
 - 辻野　翔大
 - 就労移行支援事業所 未来のカタチ
 - s16h90o@gmail.com
-- 
+![image](https://user-images.githubusercontent.com/105256640/196356652-5736984e-8407-4b5c-8a45-e518a27e6949.png)
