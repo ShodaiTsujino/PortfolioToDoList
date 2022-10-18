@@ -48,7 +48,7 @@
 起動後以下にアクセスすることでログイン画面に遷移します。
 
 * [http://localhost:8080/login](http://localhost:8080/login)
-* ![image](https://user-images.githubusercontent.com/105256640/196357032-382ec7a5-51a8-47b7-a90d-4c603aef1a5c.png)
+![image](https://user-images.githubusercontent.com/105256640/196357405-b2c06177-7fcf-4dc2-ab55-277153d7ff02.png)
 
 ログイン後にToDoリストの一覧に遷移し、各CRUD処理に移動が可能になります。
 * [http://localhost:8080/list](http://localhost:8080/list)
