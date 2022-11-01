@@ -48,14 +48,10 @@
 
 ##Server起動
 
-起動後以下にアクセスすることでログイン画面に遷移します。
+起動後以下にアクセスすることでログイン画面に遷移し、ログイン後にTOPページへ移動後各CRUD処理が可能となります。
 
 * [http://localhost:8080/login](http://localhost:8080/login)
-![image](https://user-images.githubusercontent.com/105256640/196357405-b2c06177-7fcf-4dc2-ab55-277153d7ff02.png)
-
-ログイン後にToDoリストの一覧に遷移し、各CRUD処理に移動が可能になります。
-* [http://localhost:8080/list](http://localhost:8080/list)
-![image](https://user-images.githubusercontent.com/105256640/196356652-5736984e-8407-4b5c-8a45-e518a27e6949.png)
+![todoList_preview](https://user-images.githubusercontent.com/105256640/199258838-9e7c425e-53d7-4df3-87f6-9d56cde18dff.gif)
 
 ********
 # 作成者
