@@ -21,7 +21,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	 */
 	@Autowired
 	private UserService userService;
-	
+
 	/**
 	 * ログインユーザー照合
 	 */

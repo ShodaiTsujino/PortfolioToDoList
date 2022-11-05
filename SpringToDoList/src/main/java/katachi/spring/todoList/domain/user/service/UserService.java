@@ -2,6 +2,7 @@ package katachi.spring.todoList.domain.user.service;
 
 import java.util.List;
 
+import katachi.spring.todoList.domain.user.model.Event;
 import katachi.spring.todoList.domain.user.model.LoginInfo;
 import katachi.spring.todoList.domain.user.model.MUser;
 
@@ -27,5 +28,9 @@ public interface UserService {
 	//ログイン処理
 	public LoginInfo getLoginUser(String userId);
 
+	//リスト画面から完了処理
 	public void completeToDoOne(int id);
+
+	//カレンダー内容取得
+	public List<Event> getAllEvent();
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import katachi.spring.todoList.domain.user.model.Event;
 import katachi.spring.todoList.domain.user.model.LoginInfo;
 import katachi.spring.todoList.domain.user.model.MUser;
 
@@ -36,4 +37,7 @@ public interface UserMapper {
 
 	//一覧画面から完了処理
 	public void completeOne(int id);
+
+	//カレンダー内容取得
+	public List<Event> findAllEvent();
 }

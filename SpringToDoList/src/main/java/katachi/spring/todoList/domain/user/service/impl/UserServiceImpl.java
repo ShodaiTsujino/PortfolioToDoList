@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import katachi.spring.todoList.domain.user.model.Event;
 import katachi.spring.todoList.domain.user.model.LoginInfo;
 import katachi.spring.todoList.domain.user.model.MUser;
 import katachi.spring.todoList.domain.user.service.UserService;
@@ -61,5 +62,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void completeToDoOne(int id) {
 		mapper.completeOne(id);
+	}
+
+	@Override
+	public List<Event> getAllEvent() {
+		return  mapper.findAllEvent();
 	}
 }

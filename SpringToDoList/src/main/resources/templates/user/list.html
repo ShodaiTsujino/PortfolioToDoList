@@ -10,12 +10,25 @@
 	<!-- 個別JS読込 -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 	<title th:text="${title}"></title>
+	<script>
+		function completebtn() {
+			//確認ダイアログを表示する
+			if(confirm("作業を完了しますか？")){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body>
 	<div layout:fragment="content">
 		<div class="navbar">
-			<a th:href="@{add}" class="btn-simple01 px-2">作業登録</a>
+			<div>
+				<a th:href="@{add}" class="btn-simple01 px-2 py-1">作業登録</a>
+				<a th:href="@{schedule}" class="btn-simple01 px-2 py-1 m-2">スケジュール</a>
+			</div>
 			<form id="user-search-form" method="get" th:action="@{/user/list}" class="form-inline">
 				<div class="form-group">
 					<input type="text" class="form-control mr-1" name="search" th:value="${param.search}"/>
@@ -39,7 +52,7 @@
 			<tbody>
 				<tr th:each="item: ${todoList}"
 					th:styleappend="${item.endDate < #dates.createNow() && item.completeDate == null}? 'background-color: #f99;'">
-					<td th:text="${item.content}" class="text-left col-md-4"></td>
+					<td th:text="${item.content}" class="text-left col-md-3 text-break"></td>
 					<td th:text="${item.userName}"></td>
 					<td th:text="${#dates.format(item.createdDate, 'YYYY/MM/dd')}"></td>
 					<td th:text="${#dates.format(item.endDate, 'YYYY/MM/dd')}"></td>
@@ -50,7 +63,7 @@
 							<form th:action="@{/user/list/} + *{item.id}" method="post">
 								<button type="submit" class="btn-simple01" name="completed"
 									th:text="${item.completeDate}? '完了済':'完了	'"
-									th:disabled="${item.completeDate !=null}">
+									th:disabled="${item.completeDate !=null}" onclick="return completebtn()">
 								</button>
 								<button type="submit" class="btn-simple01 mx-1" name="update">更新</button>
 								<button type="submit" class="btn-simple01" name="delete">削除</button>

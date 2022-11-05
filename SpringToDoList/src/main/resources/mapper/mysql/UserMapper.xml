@@ -106,4 +106,20 @@
 		where
 		user_id = #{userId}
 	</select>
+	<!-- カレンダー情報取得 -->
+	<select id="findAllEvent" resultType="Event">
+		select
+		id,
+		content as title,
+		end_date as start,
+		(
+		case
+		when id % 3 = 0 then '#660000'
+		when id % 3 = 1 then '#000022'
+		when id % 3 = 2 then '#FF4F02'
+		end
+		) as color
+		from
+		t_task
+	</select>
 </mapper>
